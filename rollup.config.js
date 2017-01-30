@@ -7,7 +7,8 @@ import minify from 'rollup-plugin-uglify'
 export default {
   entry: 'src/index.js',
   dest: 'dist/index.js',
-  format: 'cjs',
+  format: 'umd',
+  moduleName: 'Knoll',
   plugins: [
     eslint(),
     babel({
