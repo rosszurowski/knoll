@@ -11,7 +11,16 @@ export default {
   plugins: [
     eslint(),
     babel({
-      exclude: 'node_modules/**'
+      exclude: 'node_modules/**',
+      babelrc: false,
+      presets: [
+        ["es2015", { "modules": false }],
+        "stage-0",
+        "react"
+      ],
+      plugins: [
+        "transform-class-properties"
+      ]
     }),
     minify(),
     filesize(),
