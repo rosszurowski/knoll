@@ -42,6 +42,8 @@
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c",
+    "release": "np",
+    "prepublish": "npm run build",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
