@@ -1,4 +1,4 @@
-# Knoll
+# Knoll [![Build Status](https://travis-ci.org/rosszurowski/knoll.svg?branch=master)](https://travis-ci.org/rosszurowski/knoll)
 
 A simple, fast, and unopinionated table component for React.
 
