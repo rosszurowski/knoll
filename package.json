@@ -31,6 +31,15 @@
     "rollup-plugin-uglify": "^1.0.1",
     "rollup-watch": "^3.2.2"
   },
+  "keywords": [
+    "react",
+    "table",
+    "knoll",
+    "grid",
+    "ui",
+    "component",
+    "react-table"
+  ],
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c",
