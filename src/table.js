@@ -37,6 +37,7 @@ export default function Table (props) {
               className={rowClassName}
               columns={columns}
               data={rowData}
+              index={rowIndex}
               key={rowIndex} />
           ))
         )}
