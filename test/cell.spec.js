@@ -41,11 +41,21 @@ describe('Column', () => {
       expect(el.text()).toBe('Hi')
     })
 
-    it('renders nothing when `cellKey` calls a property that does not exist', () => {
+    it('renders nothing when `cellKey` calls a property that does not exist on an object', () => {
       const el = shallow((
         <Cell
           column={<Column cellKey="dawg" />}
           data={{ foo: 'Hi' }} />
+      ))
+
+      expect(el.text()).toBe('')
+    })
+
+    it('renders nothing when `cellKey` calls a property for a non-object', () => {
+      const el = shallow((
+        <Cell
+          column={<Column cellKey="dawg" />}
+          data={5} />
       ))
 
       expect(el.text()).toBe('')
