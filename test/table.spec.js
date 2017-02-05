@@ -11,7 +11,7 @@ describe('Table', () => {
     })
 
     it('renders a row for each item in `data`', () => {
-      const el = shallow((
+      const el = mount((
         <Table data={[1, 2, 3]}>
           <Column cell={val => val} />
         </Table>

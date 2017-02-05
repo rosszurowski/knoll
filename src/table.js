@@ -1,5 +1,8 @@
 
 import React, { PropTypes } from 'react'
+import Row from './row'
+
+import maybeCall from './helpers/maybe-call'
 
 export default function Table (props) {
   const {
@@ -12,7 +15,7 @@ export default function Table (props) {
   } = props
 
   const columns = React.Children.toArray(children)
-  const hasCells = columns.some(child => Boolean(child.props.cell))
+  const hasCells = data.length > 0
   const hasHeaders = columns.some(child => Boolean(child.props.header))
 
   return (
@@ -28,12 +31,13 @@ export default function Table (props) {
       )}
       <tbody>
         {hasCells && (
-          data.map((row, rowIndex) => (
-            <tr className={rowClassName} key={rowIndex}>
-              {React.Children.map(children, (child, index) => (
-                <td className={cellClassName} key={index}>{maybeCall(child.props.cell, row)}</td>
-              ))}
-            </tr>
+          data.map((rowData, rowIndex) => (
+            <Row
+              cellClassName={cellClassName}
+              className={rowClassName}
+              columns={columns}
+              data={rowData}
+              key={rowIndex} />
           ))
         )}
       </tbody>
@@ -46,8 +50,4 @@ Table.propTypes = {
   data: PropTypes.array.isRequired,
   headerCellClassName: PropTypes.string,
   rowClassName: PropTypes.string
-}
-
-function maybeCall (fn, ...args) {
-  return typeof fn === 'function' ? fn(...args) : fn
 }
