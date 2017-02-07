@@ -6,7 +6,7 @@ export default function Cell (props) {
   const { column, data, rowIndex, ...rest } = props
   const { cellKey, cell } = column.props
 
-  let value = cellKey
+  let value = typeof cellKey !== 'undefined'
     ? data[cellKey]
     : maybeCall(cell, data, rowIndex)
 

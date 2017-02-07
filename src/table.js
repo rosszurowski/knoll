@@ -23,9 +23,20 @@ export default function Table (props) {
       {hasHeaders && (
         <thead>
           <tr className={rowClassName}>
-            {React.Children.map(children, (child, index) => (
-              <th className={headerCellClassName} key={index}>{maybeCall(child.props.header)}</th>
-            ))}
+            {columns.map((column, index) => {
+              const columnStyle = column.props.width
+                ? { width: column.props.width }
+                : {}
+
+              return (
+                <th
+                  className={headerCellClassName}
+                  style={columnStyle}
+                  key={index}>
+                  {maybeCall(column.props.header)}
+                </th>
+              )
+            })}
           </tr>
         </thead>
       )}
