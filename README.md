@@ -75,9 +75,9 @@ Would output a table like this:
 
 ID | Phone Number  | Name
 ---|---------------|-------
-5  | +650 555-1234 | Mies van der Rohe
-6  | +650 555-9123 | Florence Knoll
-7  | +650 555-5678 | Harry Bertoia
+#5  | +650 555-1234 | Mies van der Rohe
+#6  | +650 555-9123 | Florence Knoll
+#7  | +650 555-5678 | Harry Bertoia
 
 ## Motivation
 
