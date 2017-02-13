@@ -3,6 +3,7 @@
   "version": "0.0.9",
   "description": "",
   "main": "dist/index.js",
+  "repository": "rosszurowski/knoll",
   "dependencies": {},
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0",
