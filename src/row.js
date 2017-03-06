@@ -3,10 +3,14 @@ import React, { PropTypes } from 'react'
 import Cell from './cell'
 
 export default function Row (props) {
-  const { columns, cellClassName, data, index: rowIndex, ...rest } = props
+  const { columns, cellClassName, data, index: rowIndex, onClick, ...rest } = props
+
+  let wrappedOnClick = onClick
+    ? () => onClick(data)
+    : undefined
 
   return (
-    <tr {...rest}>
+    <tr onClick={wrappedOnClick} {...rest}>
       {columns.map((column, index) => (
         <Cell
           className={cellClassName}
@@ -24,4 +28,5 @@ Row.propTypes = {
   columns: PropTypes.array.isRequired,
   data: PropTypes.any,
   index: PropTypes.number,
+  onClick: PropTypes.func,
 }

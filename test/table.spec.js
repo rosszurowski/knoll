@@ -51,10 +51,10 @@ describe('Table', () => {
 
     it('adds the onRowClick handler when set', () => {
       const fn = jest.fn()
+      const data = [{ a: 5 }, { a: 9 }, { a: 6 }]
       const el = mount((
-        <Table data={[1, 2, 3]} onRowClick={fn}>
-          <Column header={<h2>A</h2>} />
-          <Column header={<h2>B</h2>} />
+        <Table data={data} onRowClick={fn}>
+          <Column header="A" cellKey="a" />
         </Table>
       ))
       const row = el.find('tbody tr').first()
@@ -62,6 +62,7 @@ describe('Table', () => {
       expect(fn.mock.calls.length).toEqual(0)
       row.simulate('click')
       expect(fn.mock.calls.length).toEqual(1)
+      expect(fn.mock.calls[0]).toEqual([{ a: 5 }])
     })
   })
 })
