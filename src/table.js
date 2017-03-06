@@ -9,9 +9,10 @@ export default function Table (props) {
     className,
     children,
     data,
-    rowClassName,
     headerCellClassName,
-    cellClassName
+    cellClassName,
+    rowClassName,
+    onRowClick,
   } = props
 
   const columns = React.Children.toArray(children)
@@ -49,7 +50,8 @@ export default function Table (props) {
               columns={columns}
               data={rowData}
               index={rowIndex}
-              key={rowIndex} />
+              key={rowIndex}
+              onClick={onRowClick} />
           ))
         )}
       </tbody>
@@ -61,5 +63,6 @@ Table.propTypes = {
   cellClassName: PropTypes.string,
   data: PropTypes.array.isRequired,
   headerCellClassName: PropTypes.string,
-  rowClassName: PropTypes.string
+  onRowClick: PropTypes.func,
+  rowClassName: PropTypes.string,
 }

@@ -3,10 +3,10 @@ import React, { PropTypes } from 'react'
 import Cell from './cell'
 
 export default function Row (props) {
-  const { columns, cellClassName, data, index: rowIndex, ...remainingProps } = props
+  const { columns, cellClassName, data, index: rowIndex, ...rest } = props
 
   return (
-    <tr {...remainingProps}>
+    <tr {...rest}>
       {columns.map((column, index) => (
         <Cell
           className={cellClassName}

@@ -48,5 +48,20 @@ describe('Table', () => {
       expect(el.contains(<h2>A</h2>)).toBeTruthy()
       expect(el.contains(<h2>B</h2>)).toBeTruthy()
     })
+
+    it('adds the onRowClick handler when set', () => {
+      const fn = jest.fn()
+      const el = mount((
+        <Table data={[1, 2, 3]} onRowClick={fn}>
+          <Column header={<h2>A</h2>} />
+          <Column header={<h2>B</h2>} />
+        </Table>
+      ))
+      const row = el.find('tbody tr').first()
+
+      expect(fn.mock.calls.length).toEqual(0)
+      row.simulate('click')
+      expect(fn.mock.calls.length).toEqual(1)
+    })
   })
 })
