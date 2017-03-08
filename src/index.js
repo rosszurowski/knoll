@@ -1,6 +1,3 @@
 
-import Table from './table'
-import Columnn from './column'
-
-export default Table
-export const Column = Columnn
+export Table from './table'
+export Column from './column'

@@ -14,7 +14,7 @@ npm install --save knoll
 
 ```jsx
 import React from 'react'
-import Table, { Column } from 'knoll'
+import { Table, Column } from 'knoll'
 
 const data = [
   { id: 1, name: 'Birch', kind: 'coniferous', image: 'http...' },
@@ -39,9 +39,7 @@ function CustomTable () {
 
 ### Table
 
-The `Table` is the root component to which you pass the data and configure the table.
-
-It accepts a few props:
+The component for configuration and passing the data. It accepts a few props:
 
 * `data`: an array of data to render through the table
 * `className`: CSS class for `table`
@@ -51,11 +49,11 @@ It accepts a few props:
 
 ### Column
 
-The `Column` component is for you to specify the order and format of your data.
+Component for specifying the order and formatting of your data.
 
-Columns can take three props: `header`, `cell`, or `cellKey`. Each of these props accept strings, functions, or other React components, letting you customize how your content looks.
+Columns have two main props: `header`, `cell`. These props accept strings, functions, or other React components, letting you customize how your content looks.
 
-```
+```jsx
 const data = [
   { id: 5, name: "Mies van der Rohe", phoneNumber: '6505551234' },
   { id: 6, name: "Florence Knoll", phoneNumber: '6505559123' },
@@ -65,7 +63,7 @@ const data = [
 <Table data={data}>
   <Column header="ID" cell={row => `#${row.id}`} />
   <Column header="Phone Number" cell={row => formatPhoneNumber(row.phoneNumber)} />
-  <Column header="Name" cellKey="name" />
+  <Column header="Name" cell={row => row.name} />
 </Table>
 ```
 
@@ -76,6 +74,28 @@ ID | Phone Number  | Name
 #5  | +650 555-1234 | Mies van der Rohe
 #6  | +650 555-9123 | Florence Knoll
 #7  | +650 555-5678 | Harry Bertoia
+
+#### `cellKey` shorthand
+
+Since tables often show properties directly from an object, `Column` components accept a `cellKey` prop to make this easier.
+
+Passing `cellKey="propName"` is shorthand for `cell={row => row.propName}`. Like so:
+
+```jsx
+const data = [
+  { id: 5, name: "Mies van der Rohe", phoneNumber: '650 555 1234' },
+  { id: 6, name: "Florence Knoll", phoneNumber: '650 555 9123' },
+  { id: 7, name: "Harry Bertoia", phoneNumber: '650 555 5678' }
+]
+
+<Table data={data}>
+  <Column header="ID" cellKey="id" />
+  <Column header="Phone Number" cellKey="phoneNumber" />
+  <Column header="Name" cellKey="name" />
+</Table>
+```
+
+`cellKey` does not currently support nested properties (eg. `obj.a.b.c`). If you need to access nested properties, we recommend you use `cell` instead.
 
 ## Motivation
 

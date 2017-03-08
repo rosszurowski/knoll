@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { shallow, mount } from 'enzyme'
-import Column from '../src/column'
+import { Column } from '../src/index'
 
 describe('Column', () => {
   describe('#render', () => {

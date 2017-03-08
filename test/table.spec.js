@@ -1,8 +1,7 @@
 
 import React from 'react'
 import { shallow, mount, render } from 'enzyme'
-import Table from '../src/table'
-import Column from '../src/column'
+import { Table, Column } from '../src/index'
 
 describe('Table', () => {
   describe('#render', () => {
