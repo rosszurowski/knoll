@@ -2,7 +2,7 @@
 
 A simple, fast, and un-opinionated table component for React.
 
-It is small (900 bytes after gzip) and has no dependencies.
+It is small (900 bytes after gzip), has no dependencies, and is [easy to extend via composition](#composition).
 
 ## Installation
 
@@ -97,13 +97,44 @@ const data = [
 
 `cellKey` does not currently support nested properties (eg. `obj.a.b.c`). If you need to access nested properties, we recommend you use `cell` instead.
 
+## Composition
+
+Part of the beauty of React is being able to compose small pieces of functionality into complex UIs. By leveraging [higher-order components](https://facebook.github.io/react/docs/higher-order-components.html), we can extend Knoll with features we need in an organized and reusable way.
+
+For instance, we may want to add pagination to our tables.
+
+Knoll exposes a few common extensions under the `knoll/extensions` namespace. You can use them like so:
+
+```jsx
+import { Table, Column } from 'knoll'
+import { compose, withFilter, withPagination } from 'knoll/extensions'
+
+const ExtendedTable = compose(
+  withFilter(['id', 'title', 'tags']),
+  withPagination(),
+)(Table)
+
+export default function MyComponent (props) {
+  return (
+    <ExtendedTable data={/* ... */}>
+      <Column header="ID" cellKey="id" />
+      <Column header="Title" cellKey="title" />
+    </ExtendedTable>
+  )
+}
+```
+
+*See the [advanced usage example](https://github.com/rosszurowski/knoll/tree/master/examples/advanced) for more details.*
+
+Using composition not only keeps code organized and local state out of components, but it also allows for a pluggable ecosystem, rather than monolithic solutions.
+
 ## Motivation
 
-Showing tabular data on the web has been a solved problem since 1997. But recent React components trying to make it easy all come off heavy-handed. Knoll tries to provide a simple and composable interface to building reactive tables.
+Showing tabular data on the web has been a solved problem since 1997. But recent React components for tables make it [quite heavy-handed](https://github.com/tannerlinsley/react-table#component-overrides). Knoll tries to provide a simple, composable, and elegant interface to building reactive tables.
 
 A few future plans:
 
-- [ ] Examples of using composition for searching, filtering, sorting
+- [x] Examples of using composition for searching, filtering, sorting
 - [ ] Examples of styling interior HTML components
 - [ ] Better documentation
 - [ ] Better test coverage
