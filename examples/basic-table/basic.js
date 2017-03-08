@@ -1,4 +1,4 @@
-/* global React, ReactDOM */
+/* global React, ReactDOM, Knoll */
 
 const { Component } = React
 const { default: Table, Column } = Knoll
