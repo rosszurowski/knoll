@@ -1,6 +1,8 @@
 # Knoll [![Build Status](https://travis-ci.org/rosszurowski/knoll.svg?branch=master)](https://travis-ci.org/rosszurowski/knoll)
 
-A simple, fast, and unopinionated table component for React.
+A simple, fast, and un-opinionated table component for React.
+
+It is small (900 bytes after gzip) and has no dependencies.
 
 ## Installation
 
@@ -11,7 +13,7 @@ npm install --save knoll
 ## Usage
 
 ```jsx
-import React, { Component } from 'react'
+import React from 'react'
 import Table, { Column } from 'knoll'
 
 const data = [
@@ -21,19 +23,17 @@ const data = [
   { id: 4, name: 'Fir', kind: 'coniferous', image: 'http...' }
 ]
 
-export default class Example extends Component {
-  render () {
-    return (
-      <Table data={data}>
-        {/* You can define a column's content with a function, returning a string, number, or set of elements */}
-        <Column header="Order" cell={row => row.id} />
-        <Column header="Image" cell={row => <img src={row.image} alt={row.name} />} />
-        {/* You can also use the `cellKey` prop as a shorthand to get a property */}
-        <Column header="Name" cellKey="name" />
-        <Column header="Kind" cellKey="kind" />
-      </Table>
-    )
-  }
+function CustomTable () {
+  return (
+    <Table data={data}>
+      {/* You can define a column's content with a function, returning a string, number, or set of elements */}
+      <Column header="Order" cell={row => row.id} />
+      <Column header="Image" cell={row => <img src={row.image} alt={row.name} />} />
+      {/* You can also use the `cellKey` prop as a shorthand to get a property */}
+      <Column header="Name" cellKey="name" />
+      <Column header="Kind" cellKey="kind" />
+    </Table>
+  )
 }
 ```
 
@@ -56,8 +56,6 @@ The `Column` component is for you to specify the order and format of your data.
 Columns can take three props: `header`, `cell`, or `cellKey`. Each of these props accept strings, functions, or other React components, letting you customize how your content looks.
 
 ```
-// If each row looks like:
-
 const data = [
   { id: 5, name: "Mies van der Rohe", phoneNumber: '6505551234' },
   { id: 6, name: "Florence Knoll", phoneNumber: '6505559123' },
