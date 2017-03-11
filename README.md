@@ -195,7 +195,7 @@ const CustomTable = props => (
 Being able to customize arbitrary elements means it’s easy to work with external CSS frameworks like [Bootstrap](https://v4-alpha.getbootstrap.com/content/tables/):
 
 ```jsx
-const default = {
+const defaults = {
   table: props => <Table className="table" {...props} />,
 }
 
@@ -203,7 +203,7 @@ const striped = {
   table: props => <Table className="table table-striped" {...props} />,
 }
 
-export const DefaultTable = props => <Table components={default} {...props} />
+export const DefaultTable = props => <Table components={defaults} {...props} />
 export const StripedTable = props => <Table components={striped} {...props} />
 
 //
@@ -231,14 +231,14 @@ It’s also easy to work with CSS-in-JS solutions. The example below uses [style
 
 ```jsx
 const components = {
- table: styled.table`
-   color: #242424;
-   font-size: 12px;
- `,
- tableHeader: styled.thead`
-   font-weight: bold;
-   Text-align: center;
- `,
+  table: styled.table`
+    color: #242424;
+    font-size: 12px;
+  `,
+  tableHeader: styled.thead`
+    font-weight: bold;
+    text-align: center;
+  `,
 }
 
 const StyledTable = props => (
