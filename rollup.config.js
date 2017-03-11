@@ -20,6 +20,7 @@ export default {
         "react"
       ],
       plugins: [
+        "external-helpers",
         "transform-class-properties"
       ]
     }),

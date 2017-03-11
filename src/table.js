@@ -2,67 +2,73 @@
 import React, { PropTypes } from 'react'
 import Row from './row'
 
-import maybeCall from './helpers/maybe-call'
+const defaultComponents = {
+  table: 'table',
+  header: 'thead',
+  headerRow: 'tr',
+  headerCell: 'th',
+  body: 'tbody',
+  row: 'tr',
+  cell: 'td',
+}
 
 export default function Table (props) {
+  const { children, data, components, onRowClick, ...rest } = props
+
   const {
-    className,
-    children,
-    data,
-    headerCellClassName,
-    cellClassName,
-    rowClassName,
-    onRowClick,
-  } = props
+    table: InternalTable,
+    header: TableHeader,
+    headerRow: TableHeaderRow,
+    headerCell: TableHeaderCell,
+    body: TableBody,
+    row: TableRow,
+    cell: TableCell,
+  } = { ...defaultComponents, ...components }
 
   const columns = React.Children.toArray(children)
+  const headers = columns.map(column => column.props.header)
   const hasCells = data.length > 0
-  const hasHeaders = columns.some(child => Boolean(child.props.header))
+  const hasHeaders = headers.some(Boolean)
 
   return (
-    <table className={className}>
+    <InternalTable {...rest}>
       {hasHeaders && (
-        <thead>
-          <tr className={rowClassName}>
-            {columns.map((column, index) => {
-              const columnStyle = column.props.width
-                ? { width: column.props.width }
-                : {}
-
-              return (
-                <th
-                  className={headerCellClassName}
-                  style={columnStyle}
-                  key={index}>
-                  {maybeCall(column.props.header)}
-                </th>
-              )
-            })}
-          </tr>
-        </thead>
+        <TableHeader>
+          <Row
+            component={TableHeaderRow}
+            cellComponent={TableHeaderCell}
+            columns={columns}
+            data={headers}
+            isHeader />
+        </TableHeader>
       )}
-      <tbody>
+      <TableBody>
         {hasCells && (
           data.map((rowData, rowIndex) => (
             <Row
-              cellClassName={cellClassName}
-              className={rowClassName}
+              key={rowIndex}
+              component={TableRow}
+              cellComponent={TableCell}
               columns={columns}
               data={rowData}
               index={rowIndex}
-              key={rowIndex}
               onClick={onRowClick} />
           ))
         )}
-      </tbody>
-    </table>
+      </TableBody>
+    </InternalTable>
   )
 }
 
 Table.propTypes = {
-  cellClassName: PropTypes.string,
+  components: PropTypes.shape({
+    cell: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    header: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    headerRow: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    headerCell: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    row: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    table: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  }),
   data: PropTypes.array.isRequired,
-  headerCellClassName: PropTypes.string,
   onRowClick: PropTypes.func,
-  rowClassName: PropTypes.string,
 }
