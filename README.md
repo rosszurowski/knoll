@@ -27,7 +27,7 @@ function CustomTable () {
   return (
     <Table data={data}>
       {/* Get a column's content via a function */}
-      <Column header="Order" cell={row => row.id} />
+      <Column header="ID" cell={row => row.id} />
       {/* Customize what renders with React elements */}
       <Column header="Image" cell={row => <img src={row.image} alt={row.name} />} />
       {/* You can also use the `cellKey` prop as a shorthand to get a property */}
