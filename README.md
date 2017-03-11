@@ -99,7 +99,7 @@ const data = [
 
 ## Motivation
 
-Showing tabular data on the web has been a solved problem since 1997. But recent React components trying to make it easy all come off heavy-handed. Knoll tries to provide a simple and composable interface to building reactive tables.
+Showing tabular data on the web has been a solved problem since 1997. But recent React components for tables make it quite heavy-handed. Knoll tries to provide a simple, composable, and elegant interface to building reactive tables.
 
 A few future plans:
 
