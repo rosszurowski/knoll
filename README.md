@@ -162,7 +162,7 @@ const components = {
   tableHeaderCell: props => <th className="CustomTable-headerCell" {...props} />,
   tableBody: props => <tbody className="CustomTable-body" {...props} />,
   tableRow: props => <tr className="CustomTable-row" {...props} />,
-  tableCell: <td className="CustomTable-cell" {...props} />,
+  tableCell: props => <td className="CustomTable-cell" {...props} />,
 }
 
 const CustomTable = props => (
