@@ -124,21 +124,20 @@ _Note: `cellKey` does not currently support nested properties (eg. `obj.a.b.c`).
 
 ## Styling
 
-Knoll ships with no styling. It only renders HTML. There’s nothing worse than finding a good library, only to realize you need to override styles and ship unused code.
+Knoll ships with no styling. It only renders HTML. There’s few things worse than finding a good component, only to realize you need to override a bunch of default styles it provides.
 
-However, Knoll allows you to customize the HTML of every it renders via the `components` prop, like so:
+Knoll allows you to customize the HTML of every it renders via the `components` prop:
 
 ```jsx
-// Define what components you'd like to render.
-// The default values are below.
+// Define components you'd like to render. (defaults below)
 const components = {
   table: 'table',
-  tableHeader: 'thead',
-  tableHeaderRow: 'tr',
-  tableHeaderCell: 'th',
-  tableBody: 'tbody',
-  tableRow: 'tr',
-  tableCell: 'td',
+  header: 'thead',
+  headerRow: 'tr',
+  headerCell: 'th',
+  body: 'tbody',
+  row: 'tr',
+  cell: 'td',
 }
 
 const DefaultTable = props => (
@@ -148,8 +147,6 @@ const DefaultTable = props => (
 
 This approach means Knoll supports both [`className`-based styling](#traditional-css) (eg. plain CSS, CSS Modules), and [CSS-in-JS approaches](#css-in-js).
 
-_Note: Be careful when moving to a `div`-based table, to define **all** the components. If you don’t React will render `th`/`tr`/`td` elements and throw “Invalid DOM Nesting” warnings._
-
 #### Traditional CSS
 
 Pass components in that add a `className`, be it a string of a CSS module class.
@@ -157,12 +154,12 @@ Pass components in that add a `className`, be it a string of a CSS module class.
 ```jsx
 const components = {
   table: props => <table className="CustomTable" {...props} />,
-  tableHeader: props => <thead className="CustomTable-header" {...props} />,
-  tableHeaderRow: props => <tr className="CustomTable-headerRow" {...props} />,
-  tableHeaderCell: props => <th className="CustomTable-headerCell" {...props} />,
-  tableBody: props => <tbody className="CustomTable-body" {...props} />,
-  tableRow: props => <tr className="CustomTable-row" {...props} />,
-  tableCell: <td className="CustomTable-cell" {...props} />,
+  header: props => <thead className="CustomTable-header" {...props} />,
+  headerRow: props => <tr className="CustomTable-headerRow" {...props} />,
+  headerCell: props => <th className="CustomTable-headerCell" {...props} />,
+  body: props => <tbody className="CustomTable-body" {...props} />,
+  row: props => <tr className="CustomTable-row" {...props} />,
+  cell: props => <td className="CustomTable-cell" {...props} />,
 }
 
 const CustomTable = props => (
@@ -177,12 +174,12 @@ const wrap = (Component, className) => props => <Component className={className}
 
 const components = {
   table: wrap('table', 'CustomTable'),
-  tableHeader: wrap('thead', 'CustomTable-header'),
-  tableHeaderRow: wrap('tr', 'CustomTable-headerRow'),
-  tableHeaderCell: wrap('th', 'CustomTable-headerCell'),
-  tableBody: wrap('tbody', 'CustomTable-body'),
-  tableRow: wrap('tr', 'CustomTable-row'),
-  tableCell: wrap('td', 'CustomTable-cell'),
+  header: wrap('thead', 'CustomTable-header'),
+  headerRow: wrap('tr', 'CustomTable-headerRow'),
+  headerCell: wrap('th', 'CustomTable-headerCell'),
+  body: wrap('tbody', 'CustomTable-body'),
+  row: wrap('tr', 'CustomTable-row'),
+  cell: wrap('td', 'CustomTable-cell'),
 }
 
 const CustomTable = props => (
@@ -192,23 +189,11 @@ const CustomTable = props => (
 
 #### Integrating with external CSS
 
-Being able to customize arbitrary elements means it’s easy to work with external CSS frameworks like [Bootstrap](https://v4-alpha.getbootstrap.com/content/tables/):
+Being able to customize each element means it’s easy to work with external CSS frameworks like [Bootstrap](https://v4-alpha.getbootstrap.com/content/tables/). When you only need to customize the `className` of `<Table />`, you can simply pass it as a prop to the table:
 
 ```jsx
-const defaults = {
-  table: props => <Table className="table" {...props} />,
-}
-
-const striped = {
-  table: props => <Table className="table table-striped" {...props} />,
-}
-
-export const DefaultTable = props => <Table components={defaults} {...props} />
-export const StripedTable = props => <Table components={striped} {...props} />
-
-//
-// Now, in other files, you can use Bootstrap's tables like so:
-//
+const DefaultTable = props => <Table className="table" {...props} />
+const StripedTable = props => <Table className="table table-striped" {...props} />
 
 const data = [
   { foo: 'bar' },
