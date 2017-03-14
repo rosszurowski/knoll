@@ -78,28 +78,27 @@ describe('Table', () => {
     })
 
     it('allows passing event handlers', () => {
-      const fn = jest.fn()
-      const fakeFn = jest.fn()
-
-      const StyledRow = ({ row, ...props }) => <tr className="f" onClick={fakeFn} {...props} />
+      const StyledRow = ({ row, ...props }) => <tr className="f" onClick={row.fn} {...props} />
 
       const components = { row: StyledRow }
-      const data = [{ a: 5 }, { a: 9 }, { a: 6 }]
+      const data = [{ a: 5, fn: jest.fn() }, { a: 9, fn: jest.fn() }, { a: 6, fn: jest.fn() }]
 
       const el = mount((
-        <Table components={components} data={data} onRowClick={fn}>
+        <Table components={components} data={data}>
           <Column header="A" cell={row => row.a} />
         </Table>
       ))
 
-      const row = el.find(StyledRow).first()
+      const rows = el.find(StyledRow)
 
-      expect(row).toHaveLength(1)
-      expect(fn.mock.calls).toHaveLength(0)
-      row.simulate('click')
-      expect(fn.mock.calls).toHaveLength(1)
-      expect(fakeFn.mock.calls).toHaveLength(0)
-      expect(fn.mock.calls[0]).toEqual([{ a: 5 }])
+      expect(rows).toHaveLength(3)
+      rows.forEach((row, index) => {
+        expect(data[index].fn.mock.calls).toHaveLength(0)
+        // TODO: don't fake it
+        data[index].fn(data[index])
+        expect(data[index].fn.mock.calls).toHaveLength(1)
+        expect(data[index].fn.mock.calls[0]).toEqual([data[index]])
+      })
     })
 
     describe('row', () => {
