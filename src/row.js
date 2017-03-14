@@ -5,13 +5,21 @@ import Cell from './cell'
 export default function Row (props) {
   const {
     columns, component: TableRow, cellComponent, data,
-    isHeader, index: rowIndex, onClick, ...rest,
+    isHeader, index: rowIndex, onClick,
   } = props
 
-  let wrappedOnClick = onClick ? () => onClick(data) : undefined
+  let rowProps = {}
+
+  if (typeof TableRow === 'function') {
+    rowProps.row = data
+  }
+
+  if (typeof onClick === 'function') {
+    rowProps.onClick = () => onClick(data)
+  }
 
   return (
-    <TableRow onClick={wrappedOnClick} {...rest}>
+    <TableRow {...rowProps}>
       {columns.map((column, index) => (
         <Cell
           component={cellComponent}

@@ -13,7 +13,7 @@ const defaultComponents = {
 }
 
 export default function Table (props) {
-  const { children, data, components, onRowClick, ...rest } = props
+  const { children, data, components, ...rest } = props
 
   const {
     table: InternalTable,
@@ -51,8 +51,7 @@ export default function Table (props) {
               cellComponent={TableCell}
               columns={columns}
               data={rowData}
-              index={rowIndex}
-              onClick={onRowClick} />
+              index={rowIndex} />
           ))
         )}
       </TableBody>
@@ -70,5 +69,4 @@ Table.propTypes = {
     table: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   }),
   data: PropTypes.array.isRequired,
-  onRowClick: PropTypes.func,
 }

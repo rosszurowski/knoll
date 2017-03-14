@@ -55,7 +55,7 @@ import { Table, Column } from 'knoll'
 const fruit = [
   { name: 'Apple', quantity: 2 },
   { name: 'Banana', quantity: 5 },
-  { name: 'Honeydew', quantity: 3 }, 
+  { name: 'Honeydew', quantity: 3 },
 ]
 
 <Table data={fruit}>
@@ -158,7 +158,8 @@ const components = {
   headerRow: props => <tr className="CustomTable-headerRow" {...props} />,
   headerCell: props => <th className="CustomTable-headerCell" {...props} />,
   body: props => <tbody className="CustomTable-body" {...props} />,
-  row: props => <tr className="CustomTable-row" {...props} />,
+  // `row` is special and receives the row's data as a prop too
+  row: ({ row, ...props }) => <tr className="CustomTable-row" {...props} />,
   cell: props => <td className="CustomTable-cell" {...props} />,
 }
 
@@ -170,7 +171,7 @@ const CustomTable = props => (
 Look overly verbose? Use the flexility of JSX to help!
 
 ```jsx
-const wrap = (Component, className) => props => <Component className={className} {...props} />
+const wrap = (Component, className) => ({ row, ...props }) => <Component className={className} {...props} />
 
 const components = {
   table: wrap('table', 'CustomTable'),
