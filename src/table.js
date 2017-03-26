@@ -2,6 +2,8 @@
 import React, { PropTypes } from 'react'
 import Row from './row'
 
+const defaultPropGetter = () => ({})
+
 const defaultComponents = {
   table: 'table',
   header: 'thead',
@@ -13,7 +15,11 @@ const defaultComponents = {
 }
 
 export default function Table (props) {
-  const { children, data, components, ...rest } = props
+  const {
+    children, data, components,
+    getHeaderProps, getHeaderRowProps, getHeaderCellProps,
+    getBodyProps, getRowProps, getCellProps, ...rest
+  } = props
 
   const {
     table: InternalTable,
@@ -33,16 +39,18 @@ export default function Table (props) {
   return (
     <InternalTable {...rest}>
       {hasHeaders && (
-        <TableHeader>
+        <TableHeader {...getHeaderProps()}>
           <Row
             component={TableHeaderRow}
             cellComponent={TableHeaderCell}
             columns={columns}
             data={headers}
+            getCellProps={getHeaderCellProps}
+            getRowProps={getHeaderRowProps}
             isHeader />
         </TableHeader>
       )}
-      <TableBody>
+      <TableBody {...getBodyProps()}>
         {hasCells && (
           data.map((rowData, rowIndex) => (
             <Row
@@ -51,6 +59,8 @@ export default function Table (props) {
               cellComponent={TableCell}
               columns={columns}
               data={rowData}
+              getCellProps={getHeaderCellProps}
+              getRowProps={getRowProps}
               index={rowIndex} />
           ))
         )}
@@ -61,6 +71,7 @@ export default function Table (props) {
 
 Table.propTypes = {
   components: PropTypes.shape({
+    body: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     cell: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     header: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     headerRow: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
@@ -69,4 +80,17 @@ Table.propTypes = {
     table: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   }),
   data: PropTypes.array.isRequired,
+  getBodyProps: PropTypes.func,
+  getHeaderCellProps: PropTypes.func,
+  getHeaderProps: PropTypes.func,
+  getHeaderRowProps: PropTypes.func,
+  getRowProps: PropTypes.func,
+}
+
+Table.defaultProps = {
+  getBodyProps: defaultPropGetter,
+  getHeaderCellProps: defaultPropGetter,
+  getHeaderProps: defaultPropGetter,
+  getHeaderRowProps: defaultPropGetter,
+  getRowProps: defaultPropGetter,
 }

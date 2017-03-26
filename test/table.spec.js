@@ -78,18 +78,16 @@ describe('Table', () => {
     })
 
     it('allows passing event handlers', () => {
-      const StyledRow = ({ row, ...props }) => <tr className="f" onClick={row.fn} {...props} />
-
-      const components = { row: StyledRow }
+      const getRowProps = row => ({ className: 'f', onClick: row.fn })
       const data = [{ a: 5, fn: jest.fn() }, { a: 9, fn: jest.fn() }, { a: 6, fn: jest.fn() }]
 
       const el = mount((
-        <Table components={components} data={data}>
+        <Table data={data} getRowProps={getRowProps}>
           <Column header="A" cell={row => row.a} />
         </Table>
       ))
 
-      const rows = el.find(StyledRow)
+      const rows = el.find('tbody tr')
 
       expect(rows).toHaveLength(3)
       rows.forEach((row, index) => {
@@ -103,19 +101,21 @@ describe('Table', () => {
 
     describe('row', () => {
       it('provides the row\'s data as a prop', () => {
-        const Row = ({ row, ...props }) => (
-          <a href={`/item/${row.id}`} {...props} />
-        )
-
         const components = {
           table: 'div',
           header: 'div',
           headerRow: 'div',
           headerCell: 'div',
-          body: props => <div className="body" {...props} />,
-          row: Row,
+          body: 'div',
+          row: 'a',
           cell: 'div',
         }
+
+        const getters = {
+          getBodyProps: () => ({ className: 'body' }),
+          getRowProps: row => ({ href: `/item/${row.id}` }),
+        }
+
         const data = [
           { id: 5, name: 'Foo' },
           { id: 6, name: 'Bar' },
@@ -123,7 +123,7 @@ describe('Table', () => {
         ]
 
         const el = render((
-          <Table components={components} data={data}>
+          <Table components={components} data={data} {...getters}>
             <Column header="Link" cellKey="name" />
           </Table>
         ))
@@ -139,6 +139,5 @@ describe('Table', () => {
         expect(rows.eq(2).text()).toEqual('Baz')
       })
     })
-
   })
 })
