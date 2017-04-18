@@ -1,12 +1,13 @@
 
 import React, { PropTypes } from 'react'
 import Cell from './cell'
+import { getColumnProps } from './column'
 
 export default function Row (props) {
   const {
     columns, component: TableRow, cellComponent,
     getCellProps, getRowProps, data,
-    isHeader, index: rowIndex, ...rowProps
+    isHeader, index: rowIndex
   } = props
 
   return (
@@ -19,7 +20,8 @@ export default function Row (props) {
           isHeader={isHeader}
           key={index}
           rowIndex={rowIndex}
-          {...getCellProps()} />
+          {...getCellProps()}
+          {...getColumnProps(column.props)} />
       ))}
     </TableRow>
   )

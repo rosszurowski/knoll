@@ -1,6 +1,7 @@
 
 import React, { PropTypes } from 'react'
 import Row from './row'
+import Column from './column'
 
 const defaultPropGetter = () => ({})
 
@@ -13,6 +14,8 @@ const defaultComponents = {
   row: 'tr',
   cell: 'td',
 }
+
+const isColumnElement = child => child.type === Column
 
 export default function Table (props) {
   const {
@@ -31,14 +34,15 @@ export default function Table (props) {
     cell: TableCell,
   } = { ...defaultComponents, ...components }
 
-  const columns = React.Children.toArray(children)
+  const columns = React.Children.toArray(children).filter(isColumnElement)
   const headers = columns.map(column => column.props.header)
   const hasCells = data.length > 0
+  const hasColumns = columns.length > 0
   const hasHeaders = headers.some(Boolean)
 
   return (
     <InternalTable {...rest}>
-      {hasHeaders && (
+      {(hasHeaders && hasColumns) && (
         <TableHeader {...getHeaderProps()}>
           <Row
             component={TableHeaderRow}
@@ -51,7 +55,7 @@ export default function Table (props) {
         </TableHeader>
       )}
       <TableBody {...getBodyProps()}>
-        {hasCells && (
+        {(hasCells && hasColumns) && (
           data.map((rowData, rowIndex) => (
             <Row
               key={rowIndex}
@@ -59,7 +63,7 @@ export default function Table (props) {
               cellComponent={TableCell}
               columns={columns}
               data={rowData}
-              getCellProps={getHeaderCellProps}
+              getCellProps={getCellProps}
               getRowProps={getRowProps}
               index={rowIndex} />
           ))
@@ -92,5 +96,6 @@ Table.defaultProps = {
   getHeaderCellProps: defaultPropGetter,
   getHeaderProps: defaultPropGetter,
   getHeaderRowProps: defaultPropGetter,
+  getCellProps: defaultPropGetter,
   getRowProps: defaultPropGetter,
 }

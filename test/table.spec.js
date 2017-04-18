@@ -24,6 +24,38 @@ describe('Table', () => {
       expect(el.find('tr')).toHaveLength(0)
     })
 
+    it('ignores non-column children', () => {
+      const data = [{ a: 5, b: 5 }, { a: 3, b: 8 }, { a: 2, b: 8 }]
+
+      const el = mount((
+        <Table data={data}>
+          <span>Hello world</span>
+          <Column header="A" cellKey="a" />
+          <Column header="B" cellKey="b" />
+        </Table>
+      ))
+
+      expect(el.text()).not.toMatch(/hello world/i)
+      expect(el.find('tr')).toHaveLength(4)
+    })
+
+    it('does not allow nested columns', () => {
+      const data = [{ a: 5, b: 5 }, { a: 3, b: 8 }, { a: 2, b: 8 }]
+
+      const el = mount((
+        <Table data={data}>
+          <span>
+            <span>Foo Bar</span>
+            <Column header="A" cellKey="a" />
+            <Column header="B" cellKey="b" />
+          </span>
+        </Table>
+      ))
+
+      expect(el.text()).not.toMatch(/foo bar/i)
+      expect(el.find('tr')).toHaveLength(0)
+    })
+
     it('render headers for columns', () => {
       const el = mount((
         <Table data={[1, 2, 3]}>
