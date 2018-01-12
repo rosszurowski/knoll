@@ -1,5 +1,6 @@
 
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import maybeCall from './helpers/maybe-call'
 
 export default function Cell (props) {
