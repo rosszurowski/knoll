@@ -51,9 +51,13 @@
       "<rootDir>/test/setupTests.js"
     ]
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c",
+    "prepublish": "npm run build",
     "release": "np",
     "lint": "eslint",
     "test": "jest",
