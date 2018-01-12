@@ -28,5 +28,5 @@ export default {
     filesize(),
   ],
   exports: 'named',
-  external: ['react']
+  external: ['react', 'prop-types']
 }
