@@ -5,7 +5,7 @@
 # Ignore npm scraps
 node_modules/
 npm-debug.log
-yarn.lock
+npm-package.json
 
 # Ignore build files
 dist/
